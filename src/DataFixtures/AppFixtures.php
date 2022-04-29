@@ -11,9 +11,6 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        //TaskFactory::createMany(10);
-
-        //UserFactory::createMany(10);
 
         UserFactory::createOne([
             'roles' => ['ROLE_ADMIN'],
@@ -22,19 +19,17 @@ class AppFixtures extends Fixture
             'password' => 'password'
         ]);
 
-        UserFactory::createOne([
+        $this->anonymous = UserFactory::createOne([
             'roles' => ['ROLE_USER'],
             'username' => 'anonymous',
             'email' => 'amoymous@todo-co.fr',
             'password' => 'password'
         ]);
 
-        TaskFactory::createMany(20, function () {
-            return [
-                'author' => UserFactory::random()
-            ];
-        });
-
+        TaskFactory::createMany(10, function () { 
+                return ['author' => $this->anonymous];
+            }
+        );
 
         $manager->flush();
     }
