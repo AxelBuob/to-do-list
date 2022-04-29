@@ -12,10 +12,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TaskController extends AbstractController
 {
-    #[Route('/tasks', name: 'task_list')]
-    public function listAction(TaskRepository $taskRepository)
+    #[Route('/tasks/undone', name: 'task_undone')]
+    public function listDone(TaskRepository $taskRepository)
     {
-        return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findAll()]);
+        return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findAllByDone(false)]);
+    }
+
+    #[Route('/tasks/done', name: 'task_done')]
+    public function listUndone(TaskRepository $taskRepository)
+    {
+        return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findAllByDone(true)]);
     }
 
     #[Route('/tasks/create', name: 'task_create')]
@@ -34,7 +40,7 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('task_undone');
         }
 
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
@@ -53,7 +59,7 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('task_undone');
         }
 
         return $this->render('task/edit.html.twig', [
@@ -72,7 +78,7 @@ class TaskController extends AbstractController
 
         $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
 
-        return $this->redirectToRoute('task_list');
+        return $this->redirectToRoute('task_undone');
     }
 
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
@@ -84,6 +90,6 @@ class TaskController extends AbstractController
 
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
-        return $this->redirectToRoute('task_list');
+        return $this->redirectToRoute('task_undone');
     }
 }
