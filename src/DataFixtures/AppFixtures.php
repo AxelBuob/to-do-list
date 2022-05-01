@@ -15,14 +15,14 @@ class AppFixtures extends Fixture
         UserFactory::createOne([
             'roles' => ['ROLE_ADMIN'],
             'username' => 'admin',
-            'email' => 'admin@todo-co.fr',
+            'email' => 'admin@domain.fr',
             'password' => 'password'
         ]);
 
         $this->anonymous = UserFactory::createOne([
             'roles' => ['ROLE_USER'],
             'username' => 'anonymous',
-            'email' => 'amoymous@todo-co.fr',
+            'email' => 'amoymous@domain.fr',
             'password' => 'password'
         ]);
 

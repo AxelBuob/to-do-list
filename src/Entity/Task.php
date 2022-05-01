@@ -18,9 +18,12 @@ class Task
     private $createdAt;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(max: 60)]
+    #[Assert\NotBlank()]
     private $title;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank()]
     private $content;
 
     #[ORM\Column(type: 'boolean')]
